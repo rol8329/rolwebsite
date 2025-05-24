@@ -83,11 +83,13 @@ class VideoPostListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, post_uuid):
-        data = request.data.copy()
-        data['post'] = get_object_or_404(BasePost, uuid=post_uuid).pk
-        serializer = VideoPostSerializer(data=data)
+        # Get the BasePost instance
+        base_post = get_object_or_404(BasePost, uuid=post_uuid)
+
+        serializer = VideoPostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            # Save with the post relationship
+            serializer.save(post=base_post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -148,11 +150,13 @@ class AudioPostListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, post_uuid):
-        data = request.data.copy()
-        data['post'] = get_object_or_404(BasePost, uuid=post_uuid).pk
-        serializer = AudioPostSerializer(data=data)
+        # Get the BasePost instance
+        base_post = get_object_or_404(BasePost, uuid=post_uuid)
+
+        serializer = AudioPostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            # Save with the post relationship
+            serializer.save(post=base_post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -213,11 +217,19 @@ class ImagePostListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, post_uuid):
-        data = request.data.copy()
-        data['post'] = get_object_or_404(BasePost, uuid=post_uuid).pk
-        serializer = ImagePostSerializer(data=data)
+        print("REQUEST DATA", request.data)
+
+        # Get the BasePost instance
+        base_post = get_object_or_404(BasePost, uuid=post_uuid)
+        print("BLOG POST", base_post)
+
+        serializer = ImagePostSerializer(data=request.data)
+        print("STEP 2")
         if serializer.is_valid():
-            serializer.save()
+            print("STEP 3")
+            # Save with the post relationship
+            serializer.save(post=base_post)
+            print("STEP 4")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -278,11 +290,13 @@ class FilePostListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, post_uuid):
-        data = request.data.copy()
-        data['post'] = get_object_or_404(BasePost, uuid=post_uuid).pk
-        serializer = FilePostSerializer(data=data)
+        # Get the BasePost instance
+        base_post = get_object_or_404(BasePost, uuid=post_uuid)
+
+        serializer = FilePostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            # Save with the post relationship
+            serializer.save(post=base_post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -328,6 +342,7 @@ class FilePostDetailView(APIView):
         response['Content-Disposition'] = f'attachment; filename="{file_post.label}"'
         return response
 
+
 class BasePostGlobalAPIView(APIView):
     def get_permissions(self):
         if self.request.method == 'GET' or self.request.method == 'POST':
@@ -337,8 +352,14 @@ class BasePostGlobalAPIView(APIView):
     def get(self, request, *args, **kwargs):
         """
         Get all active BasePosts with their related Image, Video, Audio, and File posts.
+        Optimized with prefetch_related to avoid N+1 queries.
         """
-        print("GET ALL POSTS")
-        posts = BasePost.objects.filter(actif=True)
+        posts = BasePost.objects.filter(actif=True).prefetch_related(
+            'postImagePost',
+            'postVideoPost',
+            'postAudioPost',
+            'postFilePost'
+        ).order_by('-created_at')
+
         serializer = BasePostGLobalSerializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

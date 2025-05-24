@@ -131,6 +131,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -140,15 +142,35 @@ FILE_UPLOAD_HANDLERS = [
 ]
 # Define allowed file types and maximum file size if needed
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
 
 # Allowed file extensions (for security)
-ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif']
-MAX_UPLOAD_SIZE = 10485760  # 10MB for images specifically
+ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/avi']
+ALLOWED_AUDIO_TYPES = ['audio/mp3', 'audio/wav', 'audio/ogg']
+ALLOWED_FILE_TYPES = ['application/pdf', 'text/plain', 'application/msword']
+
+MAX_UPLOAD_SIZE = 50 * 1024 * 1024  # 50MB for videos/files
+MAX_IMAGE_SIZE = 10 * 1024 * 1024   # 10MB for images
 
 # Timeout for file uploads
 FILE_UPLOAD_TIMEOUT = 300  # seconds
+
+# Security headers for file serving
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if DEBUG:
+    # Additional CORS settings for media files
+    CORS_ALLOW_ALL_ORIGINS = True  # Only for development!
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://192.168.1.48:3000",
+    ]

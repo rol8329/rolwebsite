@@ -1,38 +1,60 @@
+# serializers.py
 from rest_framework import serializers
 from blog.models import BasePost, VideoPost, AudioPost, FilePost, ImagePost
-
 
 class BasePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BasePost
         fields = '__all__'
 
+# Individual serializers (for POST operations - exclude uuid and post)
 class VideoPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoPost
-        fields = '__all__'
+        fields = ['label', 'video']
 
 class AudioPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioPost
-        fields = '__all__'
+        fields = ['label', 'audio']
 
 class FilePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilePost
-        fields = '__all__'
-
+        fields = ['label', 'file']
 
 class ImagePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImagePost
-        fields = '__all__'
+        fields = ['label', 'image']
 
+# Global serializers (for GET operations in global view - include uuid, exclude post)
+class VideoPostGlobalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoPost
+        fields = ['uuid', 'label', 'video']
+
+class AudioPostGlobalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AudioPost
+        fields = ['uuid', 'label', 'audio']
+
+class FilePostGlobalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FilePost
+        fields = ['uuid', 'label', 'file']
+
+class ImagePostGlobalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImagePost
+        fields = ['uuid', 'label', 'image']
+
+# Global BasePost serializer
 class BasePostGLobalSerializer(serializers.ModelSerializer):
-    postImagePost = ImagePostSerializer(many=True, read_only=True)
-    postVideoPost = VideoPostSerializer(many=True, read_only=True)
-    postAudioPost = AudioPostSerializer(many=True, read_only=True)
-    postFilePost = FilePostSerializer(many=True, read_only=True)
+    postImagePost = ImagePostGlobalSerializer(many=True, read_only=True)
+    postVideoPost = VideoPostGlobalSerializer(many=True, read_only=True)
+    postAudioPost = AudioPostGlobalSerializer(many=True, read_only=True)
+    postFilePost = FilePostGlobalSerializer(many=True, read_only=True)
 
     class Meta:
         model = BasePost
