@@ -1,0 +1,110 @@
+{% extends 'accueil/base.html' %}
+{% block title %}Post Details{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.content }}</p>
+
+  <hr>
+  <h4>Images</h4>
+  <div class="row">
+    {% for img in post.postImagePost.all %}
+      <div class="col-md-3">
+        <img src="{{ img.image.url }}" class="img-fluid" alt="{{ img.label }}">
+      </div>
+    {% empty %}
+      <p>No images</p>
+    {% endfor %}
+  </div>
+
+  <h4>Videos</h4>
+  <div class="row">
+    {% for video in post.postVideoPost.all %}
+      <div class="col-md-4">
+        <video controls width="100%"><source src="{{ video.video.url }}"></video>
+      </div>
+    {% empty %}
+      <p>No videos</p>
+    {% endfor %}
+  </div>
+
+  <h4>Audios</h4>
+  <ul>
+    {% for audio in post.postAudioPost.all %}
+      <li><audio controls><source src="{{ audio.audio.url }}"></audio></li>
+    {% empty %}
+      <li>No audio</li>
+    {% endfor %}
+  </ul>
+
+  <h4>Files</h4>
+  <ul>
+    {% for file in post.postFilePost.all %}
+      <li><a href="{{ file.file.url }}" download>{{ file.label }}</a></li>
+    {% empty %}
+      <li>No files</li>
+    {% endfor %}
+  </ul>
+
+  <hr>
+  <div class="mt-4 d-flex gap-2">
+    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addImageModal">Add Image</button>
+    <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addVideoModal">Add Video</button>
+    <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#addAudioModal">Add Audio</button>
+    <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addFileModal">Add File</button>
+  </div>
+
+  <!-- Modals -->
+  {% include 'blog/modals/image_modal.html' %}
+  {% include 'blog/modals/video_modal.html' %}
+  {% include 'blog/modals/audio_modal.html' %}
+  {% include 'blog/modals/file_modal.html' %}
+
+</div>
+{% endblock %}
+
+{% block domready %}
+const uuid = "{{ post.uuid }}";
+
+// Generic AJAX uploader
+function ajaxUpload(formId, url, modalId) {
+  const form = $(formId)[0];
+  const formData = new FormData(form);
+
+  $.ajax({
+    url: url,
+    method: 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    headers: {'X-CSRFToken': '{{ csrf_token }}'},
+    success: function (data) {
+      location.reload();  // reload to show new media
+    },
+    error: function (xhr) {
+      alert('Error: ' + xhr.responseText);
+    }
+  });
+}
+
+// Attach events
+$('#imageForm').on('submit', function (e) {
+  e.preventDefault();
+  ajaxUpload('#imageForm', `/api/posts/${uuid}/images/create/`, '#addImageModal');
+});
+
+$('#videoForm').on('submit', function (e) {
+  e.preventDefault();
+  ajaxUpload('#videoForm', `/api/posts/${uuid}/videos/create/`, '#addVideoModal');
+});
+
+$('#audioForm').on('submit', function (e) {
+  e.preventDefault();
+  ajaxUpload('#audioForm', `/api/posts/${uuid}/audios/create/`, '#addAudioModal');
+});
+
+$('#fileForm').on('submit', function (e) {
+  e.preventDefault();
+  ajaxUpload('#fileForm', `/api/posts/${uuid}/files/create/`, '#addFileModal');
+});
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "accueil/base.html" %} 
+{% load static %}
+{% load i18n %}
+{# load crispy_forms_tags #}
+
+{% block head %}
+{% endblock %}
+
+{% block script_head %}
+    <script src="{% static 'accueil/js/accueil.js' %}"></script>
+
+{% endblock %}
+
+{% block cssstyles %}
+<link rel="stylesheet" href="{% static 'accueil/css/accueil.css' %}" />
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allison">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Lugrasimo&family=Lumanosimo&family=Sarina&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+<header class="accueil-navigation">
+    {% include 'accueil/navbar.html' %}
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+    #home {
+        background-image: url({% static 'accueil/images_accueil/saintCavaKiteVoilier.jpg' %});
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-size: cover; /* Cover the entire area of the element */
+        background-position: center center;
+    }
+    .fullscreen-icon {
+        background-image: url({% static 'accueil/icons/icon-fullscreen.svg' %})};
+        background-size: 26px 52px;
+</style>
+<div class="welcome-container">
+
+
+    <main>
+        <section id="home" class="hero">
+            <h1 class="titre-home">Les Spots les plus incroyables, pour tous les niveaux !</h1>
+            <p class="sous-titre-home">Votre portail vers les meilleurs Spots, quel que soit votre Sport</p>
+        </section>
+
+        <section id="info-boxes">
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Pourquoi WhichSport.fr ?</h3>
+                    <p>WhichSport.fr a été créé en réponse à un besoin, le besoin de trouver rapidement les bons spots, quel
+                        que soit l'endroit. Le besoin aussi de choisir une destination en fonction des spots, de leur fréquentation,
+                    du niveau des pratiquants. Le besoin enfin d'échanger avec les autres personnes rencontrées sur le spot, de
+                    partager les photos, les émotions, les souvenirs de session. Et puis, le besoin de trouver des professionnels
+                    capable de louer du matériel, d'enseigner de nouveaux sports, d'occuper les enfants pendant une semaine de vacances.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Qui sommes-nous ?</h3>
+                    <p>Pour l'instant, WhichSport.fr est l'oeuvre d'une équipe restreinte, qui améliorer le site à mesure que la
+                        fréquentation augmente. L'idée est de conserver la gratuité pour les utilisateurs à la recherche d'information.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Comment contribuer ?</h3>
+                    <p>Vous souhaitez partager votre spot secret, vous en avez assez d'y naviguer tout seul? Facile, inscrivez vous sur le site
+                         et utilisez le boutton "proposez un spot". De la même façon, si votre commune préférée n'est pas listée, vous pouvez utiliser
+                     le boutton "proposez une commune", lorsque l'onglet commune est selectionné.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 WhichSport.fr. All rights reserved.</p>
+    </footer>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!-- navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{# url 'front:whichsport' #}">RolWebSite</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item" hidden>
+                <a href="{# url 'front:view_spots' #}" class="nav-link">
+                    Chercher un Post
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Menu Admin - Logged in : {{request.user.username}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown10">
+                    <a  class="dropdown-item" href="{% url 'blog:post_create' %}">Create Post</a>
+                    <a  class="dropdown-item" href="{% url 'blog:post_list' %}">List Posts</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

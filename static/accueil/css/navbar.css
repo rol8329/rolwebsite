@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lumanosimo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lugrasimo&family=Lumanosimo&display=swap');
+
+
+/* Base styles for the navbar */
+.navbar {
+    /*background-color: #0056b3; /* Dark blue background */
+    color: #ffffff;
+    border-bottom: 3px solid #004080;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-items: baseline;
+    .navbar-brand {
+        color: #ffffff;
+        font-size: 2.5em; /* Larger brand font */
+        font-weight: bold;
+        transition: color 0.3s;
+        font-family: "Lugrasimo", cursive;
+        font-weight: 800;
+        font-style: normal;
+        padding:10px;
+    }
+
+    .navbar-brand:hover, .navbar-brand:focus {
+        color: #16fadc; /* Light grey for hover state */
+    }
+    .navbar-nav{
+        padding:0;
+        /* Styles for nav items */
+        .nav-link {
+            font-size: 1.4em ;
+            font-weight:800;
+            color: #ffffff;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link:focus {
+            color: white;
+            background-color: #003366; /* Darker blue background on hover */
+        }
+    }
+    /* Dropdown menu styles */
+    .dropdown-menu {
+        background-color: #0066cc; /* Medium blue background */
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .dropdown-item {
+        color: #ffffff;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-item:hover, .dropdown-item:focus {
+        background-color: #004080; /* Dark blue background on hover */
+        color: white;
+    }
+
+    /* Responsive toggle button */
+    .navbar-toggler {
+        border-color: #004080;
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 991px) {
+    .navbar-nav .nav-link {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+/* Miscellaneous adjustments */
+.nav-item {
+    margin-left: 10px;
+    margin-right: 10px;
+    .user-login{
+        text-decoration: none;
+        .user-profile-picture{
+            border-radius: 40%;
+            height:60px;
+            border:3px solid white;
+        }
+    }
+    .login-feature{
+        padding-top:5px;
+        font-size: 1.7em;
+        font-weight: 600;
+    }
+}
+
+.dropdown-divider {
+    border-top-color: #004080; /* Consistent with theme */
+}

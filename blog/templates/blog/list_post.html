@@ -1,0 +1,17 @@
+{% extends 'accueil/base.html' %}
+{% block title %}Post List{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>All Posts</h2>
+    <ul class="list-group">
+        {% for post in posts %}
+            <li class="list-group-item">
+                <a href="{% url 'blog:read_post' post.uuid %}">{{ post.title }}</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No posts available.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'blog:post_create' %}" class="btn btn-success mt-3">Create New Post</a>
+</div>
+{% endblock %}
