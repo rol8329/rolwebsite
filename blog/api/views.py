@@ -26,9 +26,13 @@ class BasePostListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        print("REQUEST DATA", request.data)
         serializer = BasePostSerializer(data=request.data)
+        print("STEP 1")
         if serializer.is_valid():
+            print("STEP 2")
             serializer.save()
+            print("STEP 3")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
