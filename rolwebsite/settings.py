@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'account',
     'accueil',
     'blog',
+    'flow',
     'rest_framework',
+    'spectacle',
     'corsheaders',  # Add CORS headers app
 ]
 

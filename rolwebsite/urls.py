@@ -13,6 +13,7 @@ urlpatterns = [
     # API endpoints - Add trailing slashes for consistency
     path('api/account/', include("account.api.urls")),  # Changed: added 'api/' prefix and trailing slash
     path('api/blog/', include("blog.api.urls")),  # Changed: added 'api/' prefix and trailing slash
+    path('api/flow/', include("flow.api.urls")),
 
     # Web interface endpoints
     path('account/', include("account.urls", namespace='account')),

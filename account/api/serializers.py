@@ -36,7 +36,7 @@ class UserLoginSerializer(serializers.Serializer):
         password = attrs.get('password')
 
         if email and password:
-            user = authenticate(username=email, password=password)
+            user = authenticate(request=self.context.get('request'), email=email, password=password) # Pass email as the key
             if not user:
                 raise serializers.ValidationError('Invalid credentials')
             if not user.is_active:

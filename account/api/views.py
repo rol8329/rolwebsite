@@ -46,11 +46,13 @@ class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
+        print("LOGIN VIEW REQUEST DATA", request.data)
         serializer = UserLoginSerializer(data=request.data)
-
+        print('STEP 1')
         if serializer.is_valid():
+            print('STEP 2')
             user = serializer.validated_data['user']
-
+            print("STEP 3")
             # Generate JWT tokens
             refresh = RefreshToken.for_user(user)
 
